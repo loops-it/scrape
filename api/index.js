@@ -1,6 +1,7 @@
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-core'; 
 import express from 'express';
 import cors from 'cors';
+import chromium from '@sparticuz/chromium'; 
 
 const port = 3004;
 const app = express();
@@ -14,7 +15,13 @@ app.get("/", (req, res) => {
 
 app.post("/api/scrap-website", async (req, res) => {
   try {
-    const browser = await puppeteer.launch();
+
+        const browser = await puppeteer.launch({
+          args: chromium.args, 
+          defaultViewport: chromium.defaultViewport,
+          executablePath: await chromium.executablePath(), 
+          headless: chromium.headless,
+        });
         const page = await browser.newPage();
     
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64)');
