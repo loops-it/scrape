@@ -34,7 +34,7 @@ app.post("/api/scrap-website", async (req, res) => {
         await page.waitForSelector('.intro_paragraph ._loop_lead_paragraph_sm'); 
 
         try {
-          await page.waitForSelector('.intro_paragraph ._loop_lead_paragraph_sm', { timeout: 10000 });
+          await page.waitForSelector('.intro_paragraph ._loop_lead_paragraph_sm', { timeout: 3000 });
           
           const clickableElement = await page.$('.intro_paragraph ._loop_lead_paragraph_sm a.ng-tns-c2-0');
           if (clickableElement) {
