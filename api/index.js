@@ -14,7 +14,7 @@ app.get("/", (req, res) => {
 
 app.post("/api/scrap-website", async (req, res) => {
   try {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch();
         const page = await browser.newPage();
     
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64)');
