@@ -33,14 +33,18 @@ app.post("/api/scrap-website", async (req, res) => {
     
         await page.waitForSelector('.intro_paragraph ._loop_lead_paragraph_sm'); 
 
-        const clickableElement = await page.$('.intro_paragraph ._loop_lead_paragraph_sm a.ng-tns-c2-0');
-        if (clickableElement) {
-            await page.evaluate((el) => el.scrollIntoView(), clickableElement); 
+        try {
+          await page.waitForSelector('.intro_paragraph ._loop_lead_paragraph_sm', { timeout: 10000 });
+          
+          const clickableElement = await page.$('.intro_paragraph ._loop_lead_paragraph_sm a.ng-tns-c2-0');
+          if (clickableElement) {
+            await page.evaluate((el) => el.scrollIntoView(), clickableElement);
             await clickableElement.click();
-        } else {
-            console.error('Element not found or not clickable');
-            await browser.close();
-            return;
+          } else {
+            console.warn('Element not found or not clickable');
+          }
+        } catch (error) {
+          console.warn('Selector not found, skipping interaction');
         }
 
         await page.evaluate(() => {
