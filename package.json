@@ -12,8 +12,10 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "chrome-aws-lambda": "^10.1.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
-    "puppeteer": "^24.5.0"
+    "puppeteer": "^24.5.0",
+    "puppeteer-core": "^10.4.0"
   }
 }
