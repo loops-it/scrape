@@ -15,6 +15,7 @@ app.get("/", (req, res) => {
 
 app.post("/api/scrap-website", async (req, res) => {
   try {
+        const { url } = req.body;
 
         const browser = await puppeteer.launch({
           args: chromium.args, 
@@ -25,7 +26,7 @@ app.post("/api/scrap-website", async (req, res) => {
         const page = await browser.newPage();
     
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64)');
-        await page.goto('https://projects.worldbank.org/en/projects-operations/project-detail/P163742', {
+        await page.goto(url, {
             waitUntil: 'networkidle2'
         });
     
