@@ -5,7 +5,7 @@ import chromium from '@sparticuz/chromium';
 
 const port = 3004;
 const app = express();
-
+app.use(express.json());
 app.use(cors());
 
 
