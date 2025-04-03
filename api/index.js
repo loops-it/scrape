@@ -1,7 +1,7 @@
-import puppeteer from 'puppeteer-core'; // Use puppeteer-core
+import puppeteer from 'puppeteer-core'; 
 import express from 'express';
 import cors from 'cors';
-import chromium from 'chrome-aws-lambda'; // Import chrome-aws-lambda
+import chromium from 'chrome-aws-lambda';
 
 const port = 3004;
 const app = express();
@@ -14,16 +14,14 @@ app.get("/", (req, res) => {
 
 app.post("/api/scrap-website", async (req, res) => {
   try {
-    // Launch the browser using chrome-aws-lambda's executablePath
     const browser = await puppeteer.launch({
-      executablePath: await chromium.executablePath, // Use the Chromium binary from chrome-aws-lambda
-      headless: chromium.headless, // Use headless mode
-      args: chromium.args, // Pass necessary arguments for serverless environments
-      defaultViewport: chromium.defaultViewport, // Use the default viewport size
+      executablePath: await chromium.executablePath,
+      headless: chromium.headless,
+      args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox'], // Add sandbox arguments
+      defaultViewport: chromium.defaultViewport,
     });
-    
-    const page = await browser.newPage();
 
+    const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64)');
     await page.goto('https://projects.worldbank.org/en/projects-operations/project-detail/P163742', {
         waitUntil: 'networkidle2'
@@ -47,12 +45,10 @@ app.post("/api/scrap-website", async (req, res) => {
                 display: block !important;
             }
         `;
-
         const styleSheet = document.createElement("style");
         styleSheet.type = "text/css";
         styleSheet.innerText = styles;
         document.head.appendChild(styleSheet);
-
         const unwantedSelectors = ['header', 'footer', 'nav', '.sidebar', '.ads', '.breadcrumbs', '.breadcrumb-section', '#f03v1-social-sharing', '#newsletters'];
         unwantedSelectors.forEach(selector => {
             document.querySelectorAll(selector).forEach(el => el.remove());

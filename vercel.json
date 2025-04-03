@@ -6,9 +6,6 @@
         "use": "@vercel/node"
       }
     ],
-    "env": {
-      "CHROME_PATH": "/opt/chromium/chrome"
-    },
     "routes": [
       {
         "src": "/(.*)",
